@@ -1,0 +1,34 @@
+{
+  "name": "adamjs",
+  "version": "1.0.2",
+  "description": "JS库",
+  "main": "js/base.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npx jest",
+    "coverage": "npx jest --coverage",
+    "bulid": "babel js -d dist",
+    "precommit": "npx jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wonghan/adamjs.git"
+  },
+  "author": "Han",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^22.2.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "husky": "^0.14.3",
+    "jest": "^22.4.2",
+    "jquery": "^3.3.1",
+    "standard": "^11.0.0"
+  },
+  "dependencies": {},
+  "keywords": [
+    "function"
+  ]
+}
