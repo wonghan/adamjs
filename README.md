@@ -1,6 +1,6 @@
 # Adamjs
 
-- a wrapper function package
+- a wrapper function package（自己写的封装一些实用函数的包）
 - npm-url:[npm](https://www.npmjs.com/package/adamjs)
 - git-url:[github](https://github.com/wonghan/adamjs)
 <br>
