@@ -37,9 +37,9 @@ adam.serialize = (data) => {
   if (Array.isArray(data)) {
     return undefined
   }
-  var str = ''
-  var i = 0
-  for (var key in data) {
+  let str = ''
+  let i = 0
+  for (let key in data) {
     if (i === 0) {
       str = '?' + key + '=' + data[key]
       i++
@@ -105,7 +105,7 @@ adam.addClass = (node, className) => {
     return true
   }
   if (Array.isArray(className) && className.length !== 0) {
-    for (var i = 0, len = className.length; i < len; i++) {
+    for (let i = 0, len = className.length; i < len; i++) {
       if (typeof className[i] !== 'string') {
         return false
       }
@@ -130,7 +130,7 @@ adam.removeClass = (node, className) => {
     return true
   }
   if (Array.isArray(className) && className.length !== 0) {
-    for (var i = 0, len = className.length; i < len; i++) {
+    for (let i = 0, len = className.length; i < len; i++) {
       if (typeof className[i] !== 'string') {
         return false
       }
@@ -168,7 +168,7 @@ adam.debounce = (callback, time) => {
     return false
   }
 
-  var timer = null
+  let timer = null
 
   return function () {
   // 延迟执行，每次调用都刷新计时器，只有最后一次的调用有效
@@ -188,7 +188,7 @@ adam.throttle = (callback, time) => {
   if (typeof callback !== 'function' || typeof time !== 'number') {
     return false
   }
-  var timer = null
+  let timer = null
   return function () {
   // 定时执行，若此时timer定时器已被设定，则跳过
     if (!timer) {
@@ -213,6 +213,132 @@ adam.removeItemByIndex = (index, arr) => {
   }
   arr.splice(index, 1)
   return arr
+}
+
+/**
+ * 用JS获取cookie
+ * @param {String} name
+ * @return {String}
+ * 例：name1=value1;name2=value2;name3=value3
+ * getCookie('name1'); //返回value1
+ */
+adam.getCookie = (name) => {
+  if (typeof name !== 'string') {
+    return false
+  }
+  const decodeCookie = decodeURIComponent(document.cookie)
+  if (decodeCookie === '') {
+    return null
+  }
+  const reg = new RegExp(name + '=(.*?);')
+  const ret = reg.exec(decodeCookie)
+  return ret[1]
+}
+
+/**
+ * 用JS增加cookie
+ * @param {String} name
+ * @param {String} value
+ */
+adam.setCookie = (name, value) => {
+  if (typeof name !== 'string' || typeof value !== 'string') {
+    return false
+  }
+  document.cookie = encodeURIComponent(name) + '=' +
+                  encodeURIComponent(value) + // 编码
+                  '; domain=' + window.location.href + // 添加属性
+                  '; expires=' + new Date('2030-1-1')
+  return true
+}
+
+/**
+ * 用JS删除cookie
+ * @param {String} name
+ */
+adam.removeCookie = (name) => {
+  if (typeof name !== 'string') {
+    return false
+  }
+  document.cookie = encodeURIComponent(name) + '=' +
+  '' + ';Expires=' + new Date(0)
+  return true
+}
+
+/**
+ * XSS过滤函数
+ * @param {String} str
+ */
+adam.filter = (str) => {
+  if (typeof str !== 'string') {
+    return false
+  }
+  // 正则获取危险标签
+  const REGEXP_TAG = /<(script|style|iframe)[^<>]*?>.*?<\/\1>/ig
+  // 正则获取危险标签属性
+  const REGEXP_ATTR_NAME = /(onerror|onclick)=([\"\']?)([^\"\'>]*?)\2/ig
+  return String(str)
+    .replace(REGEXP_TAG, '')
+    .replace(REGEXP_ATTR_NAME, '')
+}
+
+/**
+ * 转义 HTML 特殊字符
+ * @param {String} str
+ */
+adam.htmlEncode = (str) => {
+  if (typeof str !== 'string') {
+    return false
+  }
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+/**
+ * 转义 JavaScript 特殊字符
+ * 通常是使用"\"对特殊字符进行转义
+ * @param {String} str
+ */
+adam.JavaScriptEncode = (str) => {
+  if (typeof str !== 'string') {
+    return false
+  }
+  function encodeCharx (original) {
+    let thecharchar = original.charAt(0)
+    switch (thecharchar) {
+      case '\n': return '\\n'
+      case '\r': return '\\r'
+      case '\'': return "\\'"
+      case '"': return '\\x22'
+      case '\&': return '\\&'
+      case '\\': return '\\\\'
+      case '\t': return '\\t'
+      case '/': return '\\x2F'
+      case '<': return '\\x3C'
+      case '>': return '\\x3E'
+      default: return thecharchar
+    }
+  }
+  const preescape = str
+  let escaped = ''
+  for (let i = 0; i < preescape.length; i++) {
+    escaped = escaped + encodeCharx(preescape.charAt(i))
+  }
+  return escaped
+}
+
+/**
+ * 转义 Url 特殊字符
+ * @param {String} str
+ */
+adam.URLEncode = (str) => {
+  if (typeof str !== 'string') {
+    return false
+  }
+  return encodeURI(str)
 }
 
 module.exports = adam

@@ -128,3 +128,58 @@ test('test true', () => {
 ```
 adam.removeItemByIndex(1, [1, 2, 3]) //return [1, 3]
 ```
+<br>
+
+### getCookie(name)
+- Function for get cookie
+```
+// example：name1=value1;name2=value2;name3=value3
+adam.getCookie('name1') //return value1 
+```
+<br>
+
+### setCookie(name,value)
+- Function for set cookie
+```
+adam.setCookie('name4','value4')
+// example：name1=value1;name2=value2;name3=value3;name4=value4
+```
+<br>
+
+### removeCookie(name)
+- Function for remove cookie
+```
+adam.removeCookie('name1')
+// example：name2=value2;name3=value3;name4=value4
+```
+<br>
+
+### filter(string)
+- Function for XSS filter
+```
+adam.filter('<script>alert</script><a href="a.com" onclick="alert(1)">test</a>') 
+// return '<a href="a.com" >test</a>'
+```
+<br>
+
+### htmlEncode(string)
+- Function for htmlEncode
+```
+adam.htmlEncode('<script></script>')  // return '&lt;script&gt;&lt;/script&gt;'
+```
+<br>
+
+### JavaScriptEncode(string)
+- Function for JavaScriptEncode
+```
+adam.JavaScriptEncode('<script>alert</script><a href="a.com" onclick="alert(1)">test</a>')  
+// return '\\x3Cscript\\x3Ealert\\x3C\\x2Fscript\\x3E\\x3Ca href=\\x22a.com\\x22 onclick=\\x22alert(1)\\x22\\x3Etest\\x3C\\x2Fa\\x3E'
+```
+<br>
+
+### URLEncode(string)
+- Function for URLEncode
+```
+adam.URLEncode('http://www.w3school.com.cn/My first/')  
+// return 'http://www.w3school.com.cn/My%20first/'
+```

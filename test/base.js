@@ -322,3 +322,81 @@ describe('removeItemByIndex', () => {
     expect(removeItemByIndex('1', [1, 2, 3])).toBeFalsy()
   })
 })
+
+/**
+ * test filter
+ */
+describe('filter', () => {
+  const filter = adam.filter
+  test('test true', () => {
+    const sourceText = '<script>alert</script><a href="a.com" onclick="alert(1)">test</a>'
+    expect(filter(sourceText)).toBe('<a href="a.com" >test</a>')
+  })
+  test('test false', () => {
+    expect(filter(undefined)).toBeFalsy()
+    expect(filter([])).toBeFalsy()
+    expect(filter({})).toBeFalsy()
+    expect(filter(1)).toBeFalsy()
+    expect(filter(true)).toBeFalsy()
+    expect(filter(null)).toBeFalsy()
+  })
+})
+
+/**
+ * test htmlEncode
+ */
+describe('htmlEncode', () => {
+  const htmlEncode = adam.htmlEncode
+  test('test true', () => {
+    const sourceText = '<script></script>'
+    expect(htmlEncode(sourceText)).toBe('&lt;script&gt;&lt;/script&gt;')
+  })
+  test('test false', () => {
+    expect(htmlEncode(undefined)).toBeFalsy()
+    expect(htmlEncode([])).toBeFalsy()
+    expect(htmlEncode({})).toBeFalsy()
+    expect(htmlEncode(1)).toBeFalsy()
+    expect(htmlEncode(true)).toBeFalsy()
+    expect(htmlEncode(null)).toBeFalsy()
+  })
+})
+
+/**
+ * test JavaScriptEncode
+ */
+describe('JavaScriptEncode', () => {
+  const JavaScriptEncode = adam.JavaScriptEncode
+  test('test true', () => {
+    const sourceText1 = '<script>alert</script><a href="a.com" onclick="alert(1)">test</a>'
+    const sourceText2 = '\n,\r,\,\&,\\,\t,\''
+    expect(JavaScriptEncode(sourceText1)).toBe('\\x3Cscript\\x3Ealert\\x3C\\x2Fscript\\x3E\\x3Ca href=\\x22a.com\\x22 onclick=\\x22alert(1)\\x22\\x3Etest\\x3C\\x2Fa\\x3E')
+    expect(JavaScriptEncode(sourceText2)).toBe("\\n,\\r,,\\&,\\\\,\\t,\\'")
+  })
+  test('test false', () => {
+    expect(JavaScriptEncode(undefined)).toBeFalsy()
+    expect(JavaScriptEncode([])).toBeFalsy()
+    expect(JavaScriptEncode({})).toBeFalsy()
+    expect(JavaScriptEncode(1)).toBeFalsy()
+    expect(JavaScriptEncode(true)).toBeFalsy()
+    expect(JavaScriptEncode(null)).toBeFalsy()
+  })
+})
+
+/**
+ * test URLEncode
+ */
+describe('URLEncode', () => {
+  const URLEncode = adam.URLEncode
+  test('test true', () => {
+    const sourceText = 'http://www.w3school.com.cn/My first/'
+    expect(URLEncode(sourceText)).toBe('http://www.w3school.com.cn/My%20first/')
+  })
+  test('test false', () => {
+    expect(URLEncode(undefined)).toBeFalsy()
+    expect(URLEncode([])).toBeFalsy()
+    expect(URLEncode({})).toBeFalsy()
+    expect(URLEncode(1)).toBeFalsy()
+    expect(URLEncode(true)).toBeFalsy()
+    expect(URLEncode(null)).toBeFalsy()
+  })
+})
